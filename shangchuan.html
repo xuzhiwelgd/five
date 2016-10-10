@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no" name="viewport">
+<title>上传图片</title>
+<style type="text/css">
+	*{ margin:0px; padding:0px;}
+	#file_input{
+		background:#000;
+		width:40px;
+		height:40px;
+	}
+	.head{
+		width:40px;
+		height:40px;
+		line-height:40px;
+		text-align:center;
+		border:1px #000000 solid;
+	}
+	input{
+		display:none;
+	}
+	#result{
+		width:100px;
+		height:100px;
+		background:#666;
+		position:relative;
+	}/*
+	#result{
+		background-size:100% !important;
+	}*/
+	#result img{
+		width: 100%;
+		height: auto;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%,-50%);
+		-webkit-transform: translate(-50%,-50%);
+	}
+</style>
+</head>
+
+<body>
+<input type="file" id="file_input"/>   
+<div id="result"></div> 
+
+<div class="head">头像</div>
+</body>
+</html>
+<script src="jquery-1.11.3.min.js"></script>
+<script type="text/javascript">
+	$(function(){
+			var result = document.getElementById("result"); 
+			var input = document.getElementById("file_input"); 
+			 
+			if(typeof FileReader==='undefined'){ 
+					result.innerHTML = "抱歉，你的浏览器不支持 FileReader"; 
+					input.setAttribute('disabled','disabled'); 
+			}else{ 
+					input.addEventListener('change',readFile,false); 
+			} 
+
+		function readFile(){ 
+				var file = this.files[0]; 
+				if(!/image\/\w+/.test(file.type)){ 
+						alert("必须为图片！"); 
+						return false; 
+				} 
+				var reader = new FileReader(); 
+				reader.readAsDataURL(file); 
+				reader.onload = function(e){ 
+						result.innerHTML = '<img src="'+this.result+'" alt=""/>'
+						//result.style.background = "url("+this.result+") no-repeat left center";  
+				} 
+		} 
+			
+		$('#result').click(function(){
+			$('input').click();
+		});		
+			
+	});		
+</script>
